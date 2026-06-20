@@ -1,8 +1,7 @@
 "use client";
 
-import { ArrowUpRight, ArrowDownRight, CreditCard } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight, Trash2 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
 import { useEffect } from "react";
 import useFetch from "@/hooks/use-fetch";
 import {
@@ -13,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-import { updateDefaultAccount } from "@/actions/account";
+import { updateDefaultAccount, deleteAccount } from "@/actions/account";
 import { toast } from "sonner";
 
 export function AccountCard({ account }) {
@@ -26,15 +25,37 @@ export function AccountCard({ account }) {
     error,
   } = useFetch(updateDefaultAccount);
 
-  const handleDefaultChange = async (event) => {
-    event.preventDefault(); // Prevent navigation
+  const {
+    loading: deleteLoading,
+    fn: deleteFn,
+  } = useFetch(deleteAccount);
 
+  const handleDefaultChange = async () => {
     if (isDefault) {
-      toast.warning("You need atleast 1 default account");
-      return; // Don't allow toggling off the default account
+      toast.warning("You need at least 1 default account");
+      return;
     }
 
     await updateDefaultFn(id);
+  };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this account?"
+    );
+
+    if (!confirmed) return;
+
+    const result = await deleteFn(id);
+
+    if (result?.success) {
+      toast.success("Account deleted successfully");
+    } else {
+      toast.error(result?.error || "Failed to delete account");
+    }
   };
 
   useEffect(() => {
@@ -51,30 +72,45 @@ export function AccountCard({ account }) {
 
   return (
     <Card className="hover:shadow-md transition-shadow group relative">
-      <Link href={`/account/${id}`}>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium capitalize">
-            {name}
-          </CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium capitalize">
+          {name}
+        </CardTitle>
+
+        <div className="flex items-center gap-2">
           <Switch
             checked={isDefault}
-            onClick={handleDefaultChange}
+            onCheckedChange={handleDefaultChange}
             disabled={updateDefaultLoading}
           />
-        </CardHeader>
+
+          <button
+            onClick={handleDelete}
+            disabled={deleteLoading}
+            className="text-red-500 hover:text-red-700 transition-colors"
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
+        </div>
+      </CardHeader>
+
+      <Link href={`/account/${id}`}>
         <CardContent>
           <div className="text-2xl font-bold">
             ${parseFloat(balance).toFixed(2)}
           </div>
+
           <p className="text-xs text-muted-foreground">
             {type.charAt(0) + type.slice(1).toLowerCase()} Account
           </p>
         </CardContent>
+
         <CardFooter className="flex justify-between text-sm text-muted-foreground">
           <div className="flex items-center">
             <ArrowUpRight className="mr-1 h-4 w-4 text-green-500" />
             Income
           </div>
+
           <div className="flex items-center">
             <ArrowDownRight className="mr-1 h-4 w-4 text-red-500" />
             Expense

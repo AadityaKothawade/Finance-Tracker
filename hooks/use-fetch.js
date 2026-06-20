@@ -7,19 +7,22 @@ const useFetch = (cb) => {
   const [error, setError] = useState(null);
 
   const fn = async (...args) => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await cb(...args);
-      setData(response);
+      setLoading(true);
       setError(null);
-    } catch (error) {
-      setError(error);
-      toast.error(error.message);
-    } finally {
-      setLoading(false);
-    }
+
+      try {
+        const response = await cb(...args);
+        setData(response);
+        setError(null);
+
+        return response; // ADD THIS
+      } catch (error) {
+        setError(error);
+        toast.error(error.message);
+        throw error;
+      } finally {
+        setLoading(false);
+      }
   };
 
   return { data, loading, error, fn, setData };

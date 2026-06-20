@@ -98,28 +98,29 @@ export function CreateAccountDrawer({ children }) {
               )}
             </div>
 
-            <div className="space-y-2">
-              <label
-                htmlFor="type"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Account Type
-              </label>
-              <Select
-                onValueChange={(value) => setValue("type", value)}
-                defaultValue={watch("type")}
-              >
-                <SelectTrigger id="type">
-                  <SelectValue placeholder="Select type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="CURRENT">Current</SelectItem>
-                  <SelectItem value="SAVINGS">Savings</SelectItem>
-                </SelectContent>
-              </Select>
-              {errors.type && (
-                <p className="text-sm text-red-500">{errors.type.message}</p>
-              )}
+          <div className="space-y-2">
+                <label
+                    htmlFor="type"
+                    className="text-sm font-medium leading-none"
+                >
+                    Account Type
+                </label>
+
+                <select
+                    id="type"
+                    value={watch("type")}
+                    onChange={(e) => setValue("type", e.target.value)}
+                    className="w-full rounded-md border p-2"
+                >
+                    <option value="CURRENT">Current</option>
+                    <option value="SAVINGS">Savings</option>
+                </select>
+
+                {errors.type && (
+                    <p className="text-sm text-red-500">
+                    {errors.type.message}
+                    </p>
+                )}
             </div>
 
             <div className="space-y-2">

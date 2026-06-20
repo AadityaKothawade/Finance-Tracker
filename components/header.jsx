@@ -13,7 +13,7 @@ const Header = async () => {
     <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
       <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/">
-        <div className="w-[80px] h-[57px] overflow-hidden">
+        <div className="w-[80px] h-[45px] overflow-hidden">
           <Image
             src="/logo.png"
             alt="Welth Logo"
