@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import {
   ChevronDown,
-  ChevronUp,
+  ChevronUp, 
   MoreHorizontal,
   Trash,
   Search,

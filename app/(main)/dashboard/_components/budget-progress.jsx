@@ -124,17 +124,38 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
       <CardContent>
         {initialBudget && (
           <div className="space-y-2">
-            <Progress
-              value={percentUsed}
-              extraStyles={`${
-                // add to Progress component
+            <div className="space-y-3">
+            <div className="flex justify-between text-sm">
+              <span className="font-medium">Budget Usage</span>
+              <span className="font-semibold">
+                {percentUsed.toFixed(1)}%
+              </span>
+            </div>
+
+          <div className="h-4 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800 shadow-inner">
+            <div
+              className={`h-full rounded-full transition-all duration-700 ${
                 percentUsed >= 90
                   ? "bg-red-500"
                   : percentUsed >= 75
-                    ? "bg-yellow-500"
-                    : "bg-green-500"
+                  ? "bg-yellow-500"
+                  : "bg-emerald-500"
               }`}
+              style={{
+                width: `${Math.min(percentUsed, 100)}%`,
+              }}
             />
+          </div>
+
+          <div className="flex justify-between text-xs text-muted-foreground">
+            <span>
+              ${currentExpenses.toFixed(2)} spent
+            </span>
+            <span>
+              ${initialBudget.amount.toFixed(2)} budget
+            </span>
+          </div>
+        </div>
             <p className="text-xs text-muted-foreground text-right">
               {percentUsed.toFixed(1)}% used
             </p>
