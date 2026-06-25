@@ -321,9 +321,13 @@ export async function scanReceipt(file) {
       merchantName: data.merchantName || "",
     };
   } catch (error) {
-    console.error("Error scanning receipt:", error);
-    // Re-throw with a clear message for the client
-    throw new Error(error.message || "Failed to scan receipt");
-  }
+        console.error("Error scanning receipt:", error);
+
+        throw new Error(
+            error instanceof Error
+            ? error.message
+            : "Failed to scan receipt"
+        );
+    }
 }
 

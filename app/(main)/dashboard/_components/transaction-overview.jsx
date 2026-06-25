@@ -88,7 +88,7 @@ export function DashboardOverview({ accounts, transactions }) {
             value={selectedAccountId}
             onValueChange={setSelectedAccountId}
           >
-            <SelectTrigger className="w-[140px]">
+            <SelectTrigger className="w-35">
               <SelectValue placeholder="Select account" />
             </SelectTrigger>
             <SelectContent>
@@ -157,7 +157,7 @@ export function DashboardOverview({ accounts, transactions }) {
               No expenses this month
             </p>
           ) : (
-            <div className="h-[300px]">
+            <div className="h-75">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie

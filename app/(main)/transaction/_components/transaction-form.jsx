@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Watch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon, Loader2, PlusCircle } from "lucide-react";
 import { format } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 import useFetch from "@/hooks/use-fetch";
 import { toast } from "sonner";
+import { useWatch } from "react-hook-form";
+
+
 
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -37,7 +40,7 @@ export function AddTransactionForm({
     register,
     handleSubmit,
     formState: { errors },
-    watch,
+    control,
     setValue,
     getValues,
     reset,
@@ -110,14 +113,40 @@ export function AddTransactionForm({
       reset();
       router.push(`/account/${transactionResult.data.accountId}`);
     }
-  }, [transactionResult, transactionLoading, editMode]);
+  }, [transactionResult, transactionLoading, editMode, reset, router]);
 
-  const type = watch("type");
-  const isRecurring = watch("isRecurring");
-  const date = watch("date");
-  const accountId = watch("accountId");
-  const category = watch("category");
-  const recurringInterval = watch("recurringInterval");
+  
+   
+
+    const type = useWatch({
+    control,
+    name: "type",
+    });
+
+    const isRecurring = useWatch({
+    control,
+    name: "isRecurring",
+    });
+
+    const date = useWatch({
+    control,
+    name: "date",
+    });
+
+    const accountId = useWatch({
+    control,
+    name: "accountId",
+    });
+
+    const category = useWatch({
+    control,
+    name: "category",
+    });
+
+    const recurringInterval = useWatch({
+    control,
+    name: "recurringInterval",
+    });
 
   const filteredCategories = categories.filter(
     (category) => category.type === type

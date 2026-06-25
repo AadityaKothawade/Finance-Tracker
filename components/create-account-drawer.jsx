@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import useFetch from "@/hooks/use-fetch";
 import { toast } from "sonner";
+import { useWatch } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,13 +18,7 @@ import {
   DrawerClose,
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { Switch } from "@/components/ui/switch";
 import { createAccount } from "@/actions/dashboard";
 import { accountSchema } from "@/app/lib/schema";
@@ -35,7 +30,7 @@ export function CreateAccountDrawer({ children }) {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch,
+    control,
     reset,
   } = useForm({
     resolver: zodResolver(accountSchema),
@@ -62,6 +57,7 @@ export function CreateAccountDrawer({ children }) {
     if (newAccount) {
       toast.success("Account created successfully");
       reset();
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setOpen(false);
     }
   }, [newAccount, reset]);
@@ -72,6 +68,17 @@ export function CreateAccountDrawer({ children }) {
     }
   }, [error]);
 
+  const type = useWatch({
+    control,
+    name: "type",
+  });
+
+  const isDefault = useWatch({
+  control,
+  name: "isDefault",
+});
+
+  
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>{children}</DrawerTrigger>
@@ -108,7 +115,7 @@ export function CreateAccountDrawer({ children }) {
 
                 <select
                     id="type"
-                    value={watch("type")}
+                    value={type}
                     onChange={(e) => setValue("type", e.target.value)}
                     className="w-full rounded-md border p-2"
                 >
@@ -156,7 +163,7 @@ export function CreateAccountDrawer({ children }) {
               </div>
               <Switch
                 id="isDefault"
-                checked={watch("isDefault")}
+                checked={isDefault}
                 onCheckedChange={(checked) => setValue("isDefault", checked)}
               />
             </div>

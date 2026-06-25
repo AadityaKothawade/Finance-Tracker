@@ -219,7 +219,7 @@ export default function TransactionTable({ transactions }) {
               setCurrentPage(1);
             }}
           >
-            <SelectTrigger className="w-[130px]">
+            <SelectTrigger className="w-32.5">
               <SelectValue placeholder="All Types" />
             </SelectTrigger>
             <SelectContent>
@@ -235,7 +235,7 @@ export default function TransactionTable({ transactions }) {
               setCurrentPage(1);
             }}
           >
-            <SelectTrigger className="w-[130px]">
+            <SelectTrigger className="w-32.5">
               <SelectValue placeholder="All Transactions" />
             </SelectTrigger>
             <SelectContent>
@@ -276,7 +276,7 @@ export default function TransactionTable({ transactions }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[50px]">
+              <TableHead className="w-12.5">
                 <Checkbox
                   checked={
                     selectedIds.length === paginatedTransactions.length &&
@@ -329,7 +329,7 @@ export default function TransactionTable({ transactions }) {
                 </div>
               </TableHead>
               <TableHead>Recurring</TableHead>
-              <TableHead className="w-[50px]" />
+              <TableHead className="w-12.5" />
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -427,7 +427,7 @@ export default function TransactionTable({ transactions }) {
                     </button>
 
                     {openMenu === transaction.id && (
-                        <div className="absolute right-0 top-10 z-50 min-w-[130px] rounded-md border bg-background shadow-lg">
+                        <div className="absolute right-0 top-10 z-50 min-w-32.5 rounded-md border bg-background shadow-lg">
                         <button
                             type="button"
                             className="block w-full px-4 py-2 text-left text-sm hover:bg-muted"
