@@ -1,5 +1,4 @@
-
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 const isProtectedRoute = createRouteMatcher([
   "/dashboard(.*)",
@@ -7,18 +6,14 @@ const isProtectedRoute = createRouteMatcher([
   "/transaction(.*)",
 ]);
 
+export default clerkMiddleware(async (auth, req) => {
+  const { userId } = await auth();
 
-
-const clerk =  clerkMiddleware(async (auth,req)=>{
-
-    const {userId} = await auth();
-    if(!userId && isProtectedRoute(req)){
-        const {redirectToSignIn} = await auth();
-        return redirectToSignIn();
-    }
+  if (!userId && isProtectedRoute(req)) {
+    const { redirectToSignIn } = await auth();
+    return redirectToSignIn();
+  }
 });
-
-export default createMiddleware(aj,clerk);
 
 export const config = {
   matcher: [
@@ -26,5 +21,4 @@ export const config = {
     '/(api|trpc)(.*)',
     '/__clerk/(.*)',
   ],
-}
-
+};
