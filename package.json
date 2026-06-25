@@ -57,6 +57,7 @@
     "eslint-config-next": "16.2.9",
     "prisma": "^6.0.1",
     "react-email": "^6.6.4",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4",
+    "typescript": "^6.0.3"
   }
 }
